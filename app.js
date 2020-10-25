@@ -1,5 +1,6 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
+require('dotenv').config()
 
 const app = express();
 
