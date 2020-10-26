@@ -1,4 +1,4 @@
-<% if (typeof(errors) != 'undefined') { %>
+<% if (typeof(errors) !== 'undefined') { %>
     <% errors.forEach(error => { %>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <%= error.message %>
@@ -7,4 +7,23 @@
             </button>
           </div>
     <% }) %>
+<% } %>
+
+<% if (successRegister.length > 0) { %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <% console.log(successRegister) %>
+          <%= successRegister %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+<% } %>
+
+<% if (errorRegister.length > 0) { %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= errorRegister %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 <% } %>

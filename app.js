@@ -1,5 +1,7 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
+const flash = require('connect-flash')
+const session = require('express-session')
 require('dotenv').config()
 
 const app = express();
@@ -9,6 +11,23 @@ const mongoDB = require('./config/keys').MongoURI;
 
 //setup mongo
 var mongoose = require('mongoose');
+
+// Express=Sessiom
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+}))
+  
+// Connect-Flash
+app.use(flash())
+
+//Global variables
+app.use((req, res, next) => {
+    res.locals.successRegister = req.flash('successRegister')
+    res.locals.errorRegister = req.flash('errorRegister')
+    next();
+})
 
 //Set up default mongoose connection
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })

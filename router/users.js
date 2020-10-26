@@ -58,8 +58,10 @@ Router.post('/register', async (req, res) => {
             newUser.password = hash
 
             const saved = await newUser.save()
-            if (saved)
-                res.send(saved)
+            if (saved) {
+                req.flash('successRegister', 'You are now registered and can login')
+                res.redirect('/users/login')
+            }
             else
                 res.send('Passed')
         }
