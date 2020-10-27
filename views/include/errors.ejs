@@ -11,7 +11,6 @@
 
 <% if (successRegister.length > 0) { %>
       <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <% console.log(successRegister) %>
           <%= successRegister %>
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -22,6 +21,15 @@
 <% if (errorRegister.length > 0) { %>
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <%= errorRegister %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+<% } %>
+
+<% if (errorSignin.length > 0) { %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= errorSignin %>
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

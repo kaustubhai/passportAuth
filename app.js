@@ -3,21 +3,39 @@ const expressLayouts = require('express-ejs-layouts')
 const flash = require('connect-flash')
 const session = require('express-session')
 require('dotenv').config()
+const passport = require('passport')
+var mongoose = require('mongoose');
 
 const app = express();
+
+require('./config/passport')(passport)
 
 //DB keys
 const mongoDB = require('./config/keys').MongoURI;
 
-//setup mongo
-var mongoose = require('mongoose');
+//Set up default mongoose connection
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Database connected'))
+    .catch((error) => console.log(error))
 
-// Express=Sessiom
+//View-Engine
+app.use(expressLayouts)
+app.set('view engine', 'ejs')
+    
+//Request Body-parser
+app.use(express.urlencoded({ extended: false }))
+
+
+// Express-Sessions
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
 }))
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
   
 // Connect-Flash
 app.use(flash())
@@ -26,20 +44,9 @@ app.use(flash())
 app.use((req, res, next) => {
     res.locals.successRegister = req.flash('successRegister')
     res.locals.errorRegister = req.flash('errorRegister')
+    res.locals.errorSignin = req.flash('error')
     next();
 })
-
-//Set up default mongoose connection
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Database connected'))
-    .catch((error) => console.log(error))
-    
-//Request Body-parser
-app.use(express.urlencoded({ extended: false }))
-
-//View-Engine
-app.use(expressLayouts)
-app.set('view engine', 'ejs')
 
 //Routers
 app.use('/', require('./router/index'))
